@@ -34,17 +34,52 @@ class LS7366R {
 public:
     // LS7366R Commands
     static const uint8_t READ_COUNTER = 0x60;
+    static const uint8_t READ_STATUS = 0x40;
+    static const uint8_t READ_MODE = 0x88;
+    static const uint8_t WRITE_MODE = 0xC0;
+    static const uint8_t LOAD_COUNTER = 0x50;
+    static const uint8_t LOAD_OTR = 0x90;
     static const uint8_t CLEAR_COUNTER = 0x20;
+    static const uint8_t CLEAR_OTR = 0x28;
+    static const uint8_t READ_OTR = 0xB8;
+    static const uint8_t NO_OP = 0xFF;
 
-    LS7366R(uint8_t csPin, SPIClass& spiPort); // Updated constructor
+    // Constructor: Initializes LS7366R with CS pin and SPI port
+    LS7366R(uint8_t csPin, SPIClass& spiPort);
+
+    // Initialization function
     void init();
+
+    // Function to send a command to LS7366R
     void sendCommand(uint8_t command);
+
+    // Function to read the counter value from LS7366R
     uint32_t readCounter();
+
+    // Function to clear the counter in LS7366R
     void clearCounter();
 
+    // Function to read the status register of LS7366R
+    uint8_t readStatus();
+
+    // Function to read the mode register of LS7366R
+    uint8_t readMode();
+
+    // Function to write to the mode register of LS7366R
+    void writeMode(uint8_t mode);
+
+    // Function to load a value into the counter of LS7366R
+    void loadCounter(uint32_t value);
+
+    // Function to load a value into the OTR (One Turn Register) of LS7366R
+    void loadOTR(uint32_t value);
+
+    // Function to read the value from the OTR (One Turn Register) of LS7366R
+    uint32_t readOTR();
+
 private:
-    uint8_t csPin;
-    SPIClass& spiPort; // Reference to the SPI port
+    uint8_t csPin;       // Chip Select (CS) pin
+    SPIClass& spiPort;   // Reference to the SPI port
 };
 
 #endif /* LS7366R_ARDUINO_H */
