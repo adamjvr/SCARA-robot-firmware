@@ -1,5 +1,4 @@
 /*
-
 MIT License
 
 Copyright (c) 2023 Adam Vadala-Roth
@@ -21,11 +20,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
 */
 
 
-#include "ls7366r_arduino.h"
+#include "LS7366R_arduino.h"
 
 // Updated constructor to accept SPI port as a parameter
 LS7366R::LS7366R(uint8_t csPin, SPIClass& spiPort) : csPin(csPin), spiPort(spiPort) {}

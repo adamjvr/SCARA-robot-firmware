@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "scara_kinematics.h"
+#include "SCARA_KINEMATICS.h"
 #include <cmath>
 
 // Implementation file for the ScaraKinematics class
@@ -33,15 +33,20 @@ ScaraKinematics::ScaraKinematics() : theta1(0), theta2(0), xP(0), yP(0), L1(0), 
     // Modify as needed based on the specific requirements of your robot
 }
 
-void ScaraKinematics::forwardKinematics() {
+void ScaraKinematics::forwardKinematics(JointAngles &angles) {
     // Compute forward kinematics using the current joint angles
     float theta1F = theta1 * Phi / 180;
     float theta2F = theta2 * Phi / 180;
     xP = round(L1 * cos(theta1F) + L2 * cos(theta1F + theta2F));
     yP = round(L1 * sin(theta1F) + L2 * sin(theta1F + theta2F));
+
+    // Update the JointAngles struct with the calculated joint angles
+    angles.theta1 = theta1;
+    angles.theta2 = theta2;
+    angles.phi = phi;
 }
 
-void ScaraKinematics::inverseKinematics(float x, float y) {
+void ScaraKinematics::inverseKinematics(float x, float y, JointAngles &angles) {
     // Compute inverse kinematics based on tool coordinates (x, y)
     
     // Calculate theta2 using the law of cosines
@@ -87,7 +92,10 @@ void ScaraKinematics::inverseKinematics(float x, float y) {
     theta2 = round(theta2);
     phi = round(phi);
 
-    // Update the angles in your headless environment as needed
-    // No GUI-related code in the headless version
+    // Update the JointAngles struct with the calculated joint angles
+    angles.theta1 = theta1;
+    angles.theta2 = theta2;
+    angles.phi = phi;
 }
+
 

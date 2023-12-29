@@ -25,7 +25,7 @@ SOFTWARE.
 #include <AccelStepper.h>
 #include <Servo.h>
 #include <math.h>
-#include "ls7366r_arduino.h"
+#include "LS7366R_arduino.h"
 #include "SCARA_KINEMATICS.h"
 
 // Chip Select Pins for LS7366R SPI encoder counter chip 
@@ -42,8 +42,25 @@ LS7366R encoder_J1(LS7366R_J1_CS_PIN, LS7366R_SPI_PORT);
 LS7366R encoder_J2(LS7366R_J2_CS_PIN, LS7366R_SPI_PORT);
 LS7366R encoder_J3(LS7366R_J3_CS_PIN, LS7366R_SPI_PORT);
 
+// Define the stepper motors and the pins the will use (Type:driver, STEP, DIR)
+AccelStepper stepper_Z(1, 2, 5);
+AccelStepper stepper_J1(1, 3, 6); 
+AccelStepper stepper_J2(1, 4, 7);
+AccelStepper stepper_J3(1, 12, 13);
+
+// Define Servo(s) for end effector/toolhead
+Servo gripper;
+
 void setup() {
   // put your setup code here, to run once:
+  stepper_Z.setMaxSpeed(4000);
+  stepper_Z.setAcceleration(2000);
+  stepper_J1.setMaxSpeed(4000);
+  stepper_J1.setAcceleration(2000);
+  stepper_J2.setMaxSpeed(4000);
+  stepper_J2.setAcceleration(2000);
+  stepper_J3.setMaxSpeed(4000);
+  stepper_J3.setAcceleration(2000);
 
 }
 

@@ -28,16 +28,23 @@ SOFTWARE.
 // Header file for the ScaraKinematics class
 // This class represents a simple SCARA robot and provides functions for forward and inverse kinematics
 
+// Struct to hold joint angles calculated by the ScaraKinematics class
+struct JointAngles {
+    float theta1;  // Joint angle 1
+    float theta2;  // Joint angle 2
+    float phi;     // Gripper angle (additional joint or end-effector orientation)
+};
+
 class ScaraKinematics {
 public:
     // Constructor to initialize member variables
     ScaraKinematics();
 
     // Function to compute forward kinematics and update xP and yP
-    void forwardKinematics();
+    void forwardKinematics(JointAngles &angles);
 
     // Function to compute inverse kinematics based on tool coordinates (x, y)
-    void inverseKinematics(float x, float y);
+    void inverseKinematics(float x, float y, JointAngles &angles);
 
 private:
     // Member variables representing robot state
@@ -45,4 +52,3 @@ private:
 };
 
 #endif // SCARA_KINEMATICS_H
-
