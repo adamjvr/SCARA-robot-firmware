@@ -29,27 +29,44 @@ SOFTWARE.
 #include "actuator.h"
 #include "SCARA_KINEMATICS.h"
 
-// Chip Select Pins for LS7366R SPI encoder counter chip 
-#define LS7366R_Z_CS_PIN 10 
-#define LS7366R_J1_CS_PIN 11
-#define LS7366R_J2_CS_PIN 12
-#define LS7366R_J3_CS_PIN 13
+// Define LS7366R and SPI configuration
+#define LS7366R_CS_PIN_Z 10
+#define LS7366R_CS_PIN_J1 11
+#define LS7366R_CS_PIN_J2 12
+#define LS7366R_CS_PIN_J3 13
 // SPI Port For Encoder Counter Chips 
-#define LS7366R_SPI_PORT SPI 
+#define LS7366R_SPI_PORT SPI
 
-/*
-LS7366R encoder_Z(LS7366R_Z_CS_PIN, LS7366R_SPI_PORT);
-LS7366R encoder_J1(LS7366R_J1_CS_PIN, LS7366R_SPI_PORT);
-LS7366R encoder_J2(LS7366R_J2_CS_PIN, LS7366R_SPI_PORT);
-LS7366R encoder_J3(LS7366R_J3_CS_PIN, LS7366R_SPI_PORT);
+// Define Stepper motor connections
+#define STEPPER_STEP_PIN_Z 2
+#define STEPPER_DIR_PIN_Z 3
+#define STEPPER_ENABLE_PIN_Z 4
+#define LIMIT_SWITCH_PIN_Z 5
 
-// Define the stepper motors and the pins the will use (Type:driver, STEP, DIR)
-AccelStepper stepper_Z(1, 2, 5);
-AccelStepper stepper_J1(1, 3, 6); 
-AccelStepper stepper_J2(1, 4, 7);
-AccelStepper stepper_J3(1, 12, 13);
-*/
+#define STEPPER_STEP_PIN_J1 6
+#define STEPPER_DIR_PIN_J1 7
+#define STEPPER_ENABLE_PIN_J1 8
+#define LIMIT_SWITCH_PIN_J1 9
 
+#define STEPPER_STEP_PIN_J2 A0
+#define STEPPER_DIR_PIN_J2 A1
+#define STEPPER_ENABLE_PIN_J2 A2
+#define LIMIT_SWITCH_PIN_J2 A3
+
+#define STEPPER_STEP_PIN_J3 A4
+#define STEPPER_DIR_PIN_J3 A5
+#define STEPPER_ENABLE_PIN_J3 2
+#define LIMIT_SWITCH_PIN_J3 3
+// Number of joints in the SCARA Robot
+#define NUM_JOINTS 4
+
+// Create an array of Actuator objects
+Actuator SCARA_robot[NUM_JOINTS] = {
+  Actuator(LS7366R_CS_PIN_Z, LS7366R_SPI_PORT, STEPPER_STEP_PIN_Z, STEPPER_DIR_PIN_Z, LIMIT_SWITCH_PIN_Z),
+  Actuator(LS7366R_CS_PIN_J1, LS7366R_SPI_PORT, STEPPER_STEP_PIN_J1, STEPPER_DIR_PIN_J1, LIMIT_SWITCH_PIN_J1),
+  Actuator(LS7366R_CS_PIN_J2, LS7366R_SPI_PORT, STEPPER_STEP_PIN_J2, STEPPER_DIR_PIN_J2, LIMIT_SWITCH_PIN_J2),
+  Actuator(LS7366R_CS_PIN_J3, LS7366R_SPI_PORT, STEPPER_STEP_PIN_J3, STEPPER_DIR_PIN_J3, LIMIT_SWITCH_PIN_J3)
+};
 
 
 // Define Servo(s) for end effector/toolhead
@@ -57,14 +74,18 @@ Servo gripper;
 
 void setup() {
   // put your setup code here, to run once:
-  stepper_Z.setMaxSpeed(4000);
-  stepper_Z.setAcceleration(2000);
-  stepper_J1.setMaxSpeed(4000);
-  stepper_J1.setAcceleration(2000);
-  stepper_J2.setMaxSpeed(4000);
-  stepper_J2.setAcceleration(2000);
-  stepper_J3.setMaxSpeed(4000);
-  stepper_J3.setAcceleration(2000);
+  Serial.begin(115200);
+
+  // Initialize each Actuator in the SCARA Robot
+  for (int i = 0; i < NUM_JOINTS; i++) {
+    SCARA_robot[i].init();
+  }// end for
+
+  // Home each joint/axis of SCARA Robot
+  SCARA_robot[0].homeActuator(1);
+  SCARA_robot[1].homeActuator(1);
+  SCARA_robot[2].homeActuator(1);
+  SCARA_robot[3].homeActuator(1);
 
 }
 
