@@ -26,6 +26,7 @@ SOFTWARE.
 #include <Servo.h>
 #include <math.h>
 #include "LS7366R_arduino.h"
+#include "actuator.h"
 #include "SCARA_KINEMATICS.h"
 
 // Chip Select Pins for LS7366R SPI encoder counter chip 
@@ -36,7 +37,7 @@ SOFTWARE.
 // SPI Port For Encoder Counter Chips 
 #define LS7366R_SPI_PORT SPI 
 
-
+/*
 LS7366R encoder_Z(LS7366R_Z_CS_PIN, LS7366R_SPI_PORT);
 LS7366R encoder_J1(LS7366R_J1_CS_PIN, LS7366R_SPI_PORT);
 LS7366R encoder_J2(LS7366R_J2_CS_PIN, LS7366R_SPI_PORT);
@@ -47,6 +48,9 @@ AccelStepper stepper_Z(1, 2, 5);
 AccelStepper stepper_J1(1, 3, 6); 
 AccelStepper stepper_J2(1, 4, 7);
 AccelStepper stepper_J3(1, 12, 13);
+*/
+
+
 
 // Define Servo(s) for end effector/toolhead
 Servo gripper;
